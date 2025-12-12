@@ -8,7 +8,7 @@ export interface GithubLabel {
   description: Description | null;
 }
 
-export enum Description {
+enum Description {
   Empty = "",
   PullRequestsThatUpdateADependencyFile = "Pull requests that update a dependency file",
 }

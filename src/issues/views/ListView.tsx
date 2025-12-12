@@ -1,12 +1,16 @@
 import { IssueList } from "../components/IssueList";
 import { LabelPicker } from "../components/LabelPicker";
+import { useIssues } from "../hooks/useIssues";
+import { GithubIssue } from "../interfaces";
 
 export const ListView = () => {
+  const { issuesQuery } = useIssues();
+  const issues: GithubIssue[] = issuesQuery.data ?? [];
   return (
     <div className="grid grid-cols-1 sm:grid-cols-3 mt-5 gap-x-8">
       {/* Ignora este elemento de abajo */}
       <div className="sm:col-span-2">
-        <IssueList />
+        <IssueList issues={issues} />
       </div>
       {/* Ignora este elemento*/}
 
