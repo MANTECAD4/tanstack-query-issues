@@ -1,23 +1,46 @@
-import { FiInfo, FiMessageSquare, FiCheckCircle } from "react-icons/fi";
+import { FiCheck, FiInfo, FiMessageSquare } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import { GithubIssue, State } from "../interfaces";
+import { useQueryClient } from "@tanstack/react-query";
+import { getComments } from "../actions/get-comments.action";
 
 export const IssueItem = (issue: GithubIssue) => {
   const navigate = useNavigate();
+  const queryCLient = useQueryClient();
+
+  const prefetchIssue = () => {
+    queryCLient.setQueryData(["issues", issue.number], issue, {
+      updatedAt: Date.now() + 1000 * 60,
+    });
+    // queryCLient.prefetchQuery({
+    //   queryKey: ["issues", issue.number],
+    //   queryFn: () => getIssueByNumber(issue.number),
+    //   staleTime: 1000 * 60 * 2,
+    // });
+  };
+
+  const openIssue = () => {
+    navigate(`/issues/issue/${issue.number}`);
+    queryCLient.prefetchQuery({
+      queryKey: ["issues", issue.number, "comments"],
+      queryFn: () => getComments(issue.number),
+      staleTime: 1000 * 60 * 2,
+    });
+  };
 
   return (
-    <div className="animate-fadeIn flex items-center px-2 py-3 mb-5 border rounded-md bg-slate-900 hover:bg-slate-800">
+    <div
+      onMouseEnter={prefetchIssue}
+      className="animate-fadeIn flex items-center px-2 py-3 mb-5 border rounded-md bg-slate-900 hover:bg-slate-800"
+    >
       {issue.state === State.Close ? (
-        <FiInfo size={30} color="green" className="min-w-10" />
+        <FiCheck size={30} color="green" className="min-w-10" />
       ) : (
         <FiInfo size={30} color="red" className="min-w-10" />
       )}
 
       <div className="flex flex-col flex-grow px-2">
-        <a
-          onClick={() => navigate(`/issues/issue/${issue.number}`)}
-          className="hover:underline"
-        >
+        <a onClick={openIssue} className="hover:underline cursor-pointer">
           {issue.title}
         </a>
         <span className="text-gray-500">

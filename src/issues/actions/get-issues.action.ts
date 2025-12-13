@@ -1,8 +1,19 @@
-import { GithubIssue } from "../interfaces";
+import { GithubIssue, State } from "../interfaces";
 import { githubApi } from "../../api/Github.api";
+import { sleep } from "../../helpers";
 
-export const getIssues = async (): Promise<GithubIssue[]> => {
-  const { data } = await githubApi.get<GithubIssue[]>("/issues");
+export const getIssues = async (
+  issuesFIlter: State
+): Promise<GithubIssue[]> => {
+  await sleep(1000);
+
+  const params = new URLSearchParams();
+  if (issuesFIlter !== State.All) {
+    params.append("state", issuesFIlter);
+  }
+  const { data } = await githubApi.get<GithubIssue[]>("/issues", {
+    params,
+  });
   // console.log(data);
   return data;
 };

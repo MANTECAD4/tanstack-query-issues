@@ -1,14 +1,10 @@
+import { useState } from "react";
 import { useLabels } from "../hooks/useLabels";
 
 export const LabelPicker = () => {
+  const [activeLabels, setActiveLabels] = useState<string[]>([]);
+
   const { labelsQuery } = useLabels();
-  // if (labelsQuery.isFetching) {
-  //   return (
-  //     <span className="flex justify-center items-center h-52 w-full">
-  //       Cargando...
-  //     </span>
-  //   );
-  // }
   if (labelsQuery.error) {
     return (
       <span className="flex justify-center text-red-600 items-center h-52">
