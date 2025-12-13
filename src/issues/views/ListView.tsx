@@ -6,11 +6,20 @@ import { GithubIssue, State } from "../interfaces";
 
 export const ListView = () => {
   const [issuesFilter, setIssuesFilter] = useState<State>(State.All);
+  const [labelsFilter, setLabelsFilter] = useState<string[]>([]);
+
   const { issuesQuery } = useIssues({ issuesFilter });
   const issues: GithubIssue[] = issuesQuery.data ?? [];
+
+  const handleLabelsFilterChange = (label: string) => {
+    if (labelsFilter.includes(label)) {
+      return setLabelsFilter((prev) => [...prev.filter((l) => l !== label)]);
+    }
+    return setLabelsFilter((prev) => [...prev, label]);
+  };
+
   return (
     <div className="grid grid-cols-1 sm:grid-cols-3 mt-5 gap-x-8">
-      {/* Ignora este elemento de abajo */}
       <div className="sm:col-span-2">
         <IssueList
           issues={issues}
@@ -18,12 +27,16 @@ export const ListView = () => {
           onChangeIssuesFilter={setIssuesFilter}
         />
       </div>
-      {/* Ignora este elemento*/}
 
-      {/* PROBLEMA */}
-      {/* Aqui lo quiero */}
       <div className="px-2 flex flex-wrap items-start gap-x-1 gap-y-2 content-start">
-        <LabelPicker />
+        <hr
+          className="w-full my-3 opacity-40"
+          // style={{ border: "1px solid rgba(3,3,3,0.5)" }}
+        />
+        <LabelPicker
+          onLabelsFilterChange={handleLabelsFilterChange}
+          selectedLabels={labelsFilter}
+        />
       </div>
     </div>
   );
