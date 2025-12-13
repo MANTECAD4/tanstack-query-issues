@@ -40,6 +40,16 @@ export const IssueItem = (issue: GithubIssue) => {
       )}
 
       <div className="flex flex-col flex-grow px-2">
+        <div className="flex flex-wrap gap-x-1 gap-y-2">
+          {issue.labels.map((label) => (
+            <span
+              className="rounded-full px-2 py-1 text-xs font-semibold"
+              style={{ border: `1px solid #${label.color}` }}
+            >
+              {label.name}
+            </span>
+          ))}
+        </div>
         <a onClick={openIssue} className="hover:underline cursor-pointer">
           {issue.title}
         </a>

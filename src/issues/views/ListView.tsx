@@ -8,7 +8,7 @@ export const ListView = () => {
   const [issuesFilter, setIssuesFilter] = useState<State>(State.All);
   const [labelsFilter, setLabelsFilter] = useState<string[]>([]);
 
-  const { issuesQuery } = useIssues({ issuesFilter });
+  const { issuesQuery } = useIssues({ issuesFilter, labelsFilter });
   const issues: GithubIssue[] = issuesQuery.data ?? [];
 
   const handleLabelsFilterChange = (label: string) => {
