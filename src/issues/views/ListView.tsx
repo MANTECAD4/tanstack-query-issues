@@ -8,7 +8,15 @@ export const ListView = () => {
   const [issuesFilter, setIssuesFilter] = useState<State>(State.All);
   const [labelsFilter, setLabelsFilter] = useState<string[]>([]);
 
-  const { issuesQuery } = useIssues({ issuesFilter, labelsFilter });
+  const {
+    issuesQuery,
+    pageNumber,
+    handleDecreasePageNumber,
+    handleIncreasePageNumber,
+  } = useIssues({
+    issuesFilter,
+    labelsFilter,
+  });
   const issues: GithubIssue[] = issuesQuery.data ?? [];
 
   const handleLabelsFilterChange = (label: string) => {
@@ -26,6 +34,24 @@ export const ListView = () => {
           issuesFilter={issuesFilter}
           onChangeIssuesFilter={setIssuesFilter}
         />
+        <div className="flex gap-x-5 justify-center items-center">
+          <button
+            className="rounded-md px-2 py-1"
+            style={{ border: "1px solid #fff" }}
+            onClick={handleDecreasePageNumber}
+            disabled={pageNumber === 1}
+          >
+            Prev
+          </button>
+          <span>{pageNumber}</span>
+          <button
+            onClick={handleIncreasePageNumber}
+            className="rounded-md px-2 py-1"
+            style={{ border: "1px solid #fff" }}
+          >
+            Next
+          </button>
+        </div>
       </div>
 
       <div className="px-2 flex flex-wrap items-start gap-x-1 gap-y-2 content-start">

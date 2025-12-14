@@ -4,7 +4,8 @@ import { sleep } from "../../helpers";
 
 export const getIssues = async (
   issuesFIlter: State,
-  labelsFilter: string[]
+  labelsFilter: string[],
+  pageNumber: number
 ): Promise<GithubIssue[]> => {
   await sleep(1000);
 
@@ -15,6 +16,8 @@ export const getIssues = async (
   if (labelsFilter.length > 0) {
     params.append("labels", labelsFilter.join(","));
   }
+  params.append("page", pageNumber.toString());
+  params.append("per_page", "5");
   const { data } = await githubApi.get<GithubIssue[]>("/issues", {
     params,
   });

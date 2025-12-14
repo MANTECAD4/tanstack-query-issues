@@ -40,7 +40,7 @@ export const IssueItem = (issue: GithubIssue) => {
       )}
 
       <div className="flex flex-col flex-grow px-2">
-        <div className="flex flex-wrap gap-x-1 gap-y-2">
+        <div className="flex flex-wrap gap-x-1 gap-y-2 mb-1">
           {issue.labels.map((label) => (
             <span
               className="rounded-full px-2 py-1 text-xs font-semibold"

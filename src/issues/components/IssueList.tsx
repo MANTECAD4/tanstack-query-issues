@@ -41,6 +41,11 @@ export const IssueList: FC<Props> = ({
         {issues.map((issue) => (
           <IssueItem key={issue.id} {...issue} />
         ))}
+        {issues.length === 0 && (
+          <div className="h-14 flex justify-center items-center">
+            No Issues Found
+          </div>
+        )}
       </div>
     </>
   );
