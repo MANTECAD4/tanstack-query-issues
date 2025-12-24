@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { getIssues } from "../actions/get-issues.action";
 import { State } from "../interfaces";
 import { useEffect, useState } from "react";
@@ -24,6 +24,7 @@ export const useIssues = ({ issuesFilter, labelsFilter }: Props) => {
       { state: issuesFilter, labels: labelsFilter.join(","), page: pageNumber },
     ],
     queryFn: () => getIssues(issuesFilter, labelsFilter, pageNumber),
+    placeholderData: keepPreviousData,
     staleTime: 1000 * 60 * 60,
   });
   const handleIncreasePageNumber = () => {
